@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ma.clothes.dao.AssetInfoMapper">
+  <resultMap id="BaseResultMap" type="com.ma.clothes.pojo.entity.AssetInfo">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="asset_name" jdbcType="VARCHAR" property="assetName" />
+    <result column="asset_category_id" jdbcType="VARCHAR" property="assetCategoryId" />
+    <result column="is_system" jdbcType="BIT" property="isSystem" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="is_consumables" jdbcType="BIT" property="isConsumables" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, asset_name, asset_category_id, is_system, description, is_consumables
+  </sql>
+  <select id="selectByExample" parameterType="com.ma.clothes.pojo.entity.AssetInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from clo_asset_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from clo_asset_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from clo_asset_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ma.clothes.pojo.entity.AssetInfoExample">
+    delete from clo_asset_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ma.clothes.pojo.entity.AssetInfo">
+    insert into clo_asset_info (id, asset_name, asset_category_id, 
+      is_system, description, is_consumables
+      )
+    values (#{id,jdbcType=VARCHAR}, #{assetName,jdbcType=VARCHAR}, #{assetCategoryId,jdbcType=VARCHAR}, 
+      #{isSystem,jdbcType=BIT}, #{description,jdbcType=VARCHAR}, #{isConsumables,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ma.clothes.pojo.entity.AssetInfo">
+    insert into clo_asset_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="assetName != null">
+        asset_name,
+      </if>
+      <if test="assetCategoryId != null">
+        asset_category_id,
+      </if>
+      <if test="isSystem != null">
+        is_system,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="isConsumables != null">
+        is_consumables,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="assetName != null">
+        #{assetName,jdbcType=VARCHAR},
+      </if>
+      <if test="assetCategoryId != null">
+        #{assetCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="isSystem != null">
+        #{isSystem,jdbcType=BIT},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="isConsumables != null">
+        #{isConsumables,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ma.clothes.pojo.entity.AssetInfoExample" resultType="java.lang.Long">
+    select count(*) from clo_asset_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update clo_asset_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.assetName != null">
+        asset_name = #{record.assetName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.assetCategoryId != null">
+        asset_category_id = #{record.assetCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isSystem != null">
+        is_system = #{record.isSystem,jdbcType=BIT},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isConsumables != null">
+        is_consumables = #{record.isConsumables,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update clo_asset_info
+    set id = #{record.id,jdbcType=VARCHAR},
+      asset_name = #{record.assetName,jdbcType=VARCHAR},
+      asset_category_id = #{record.assetCategoryId,jdbcType=VARCHAR},
+      is_system = #{record.isSystem,jdbcType=BIT},
+      description = #{record.description,jdbcType=VARCHAR},
+      is_consumables = #{record.isConsumables,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ma.clothes.pojo.entity.AssetInfo">
+    update clo_asset_info
+    <set>
+      <if test="assetName != null">
+        asset_name = #{assetName,jdbcType=VARCHAR},
+      </if>
+      <if test="assetCategoryId != null">
+        asset_category_id = #{assetCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="isSystem != null">
+        is_system = #{isSystem,jdbcType=BIT},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="isConsumables != null">
+        is_consumables = #{isConsumables,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ma.clothes.pojo.entity.AssetInfo">
+    update clo_asset_info
+    set asset_name = #{assetName,jdbcType=VARCHAR},
+      asset_category_id = #{assetCategoryId,jdbcType=VARCHAR},
+      is_system = #{isSystem,jdbcType=BIT},
+      description = #{description,jdbcType=VARCHAR},
+      is_consumables = #{isConsumables,jdbcType=BIT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

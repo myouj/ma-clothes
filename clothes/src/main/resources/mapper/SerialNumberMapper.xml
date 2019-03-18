@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ma.clothes.dao.SerialNumberMapper">
+  <resultMap id="BaseResultMap" type="com.ma.clothes.pojo.entity.SerialNumber">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="material_id" jdbcType="VARCHAR" property="materialId" />
+    <result column="serial_number" jdbcType="VARCHAR" property="serialNumber" />
+    <result column="is_sell" jdbcType="BIT" property="isSell" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="delect_flag" jdbcType="BIT" property="delectFlag" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updator" jdbcType="VARCHAR" property="updator" />
+    <result column="document_head_id" jdbcType="VARCHAR" property="documentHeadId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, material_id, serial_number, is_sell, remark, delect_flag, create_time, creator, 
+    update_time, updator, document_head_id
+  </sql>
+  <select id="selectByExample" parameterType="com.ma.clothes.pojo.entity.SerialNumberExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from clo_serial_number
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from clo_serial_number
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from clo_serial_number
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ma.clothes.pojo.entity.SerialNumberExample">
+    delete from clo_serial_number
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ma.clothes.pojo.entity.SerialNumber">
+    insert into clo_serial_number (id, material_id, serial_number, 
+      is_sell, remark, delect_flag, 
+      create_time, creator, update_time, 
+      updator, document_head_id)
+    values (#{id,jdbcType=VARCHAR}, #{materialId,jdbcType=VARCHAR}, #{serialNumber,jdbcType=VARCHAR}, 
+      #{isSell,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{delectFlag,jdbcType=BIT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updator,jdbcType=VARCHAR}, #{documentHeadId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ma.clothes.pojo.entity.SerialNumber">
+    insert into clo_serial_number
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="materialId != null">
+        material_id,
+      </if>
+      <if test="serialNumber != null">
+        serial_number,
+      </if>
+      <if test="isSell != null">
+        is_sell,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="delectFlag != null">
+        delect_flag,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updator != null">
+        updator,
+      </if>
+      <if test="documentHeadId != null">
+        document_head_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="materialId != null">
+        #{materialId,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNumber != null">
+        #{serialNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isSell != null">
+        #{isSell,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="delectFlag != null">
+        #{delectFlag,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null">
+        #{updator,jdbcType=VARCHAR},
+      </if>
+      <if test="documentHeadId != null">
+        #{documentHeadId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ma.clothes.pojo.entity.SerialNumberExample" resultType="java.lang.Long">
+    select count(*) from clo_serial_number
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update clo_serial_number
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materialId != null">
+        material_id = #{record.materialId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serialNumber != null">
+        serial_number = #{record.serialNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isSell != null">
+        is_sell = #{record.isSell,jdbcType=BIT},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delectFlag != null">
+        delect_flag = #{record.delectFlag,jdbcType=BIT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updator != null">
+        updator = #{record.updator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.documentHeadId != null">
+        document_head_id = #{record.documentHeadId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update clo_serial_number
+    set id = #{record.id,jdbcType=VARCHAR},
+      material_id = #{record.materialId,jdbcType=VARCHAR},
+      serial_number = #{record.serialNumber,jdbcType=VARCHAR},
+      is_sell = #{record.isSell,jdbcType=BIT},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      delect_flag = #{record.delectFlag,jdbcType=BIT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      updator = #{record.updator,jdbcType=VARCHAR},
+      document_head_id = #{record.documentHeadId,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ma.clothes.pojo.entity.SerialNumber">
+    update clo_serial_number
+    <set>
+      <if test="materialId != null">
+        material_id = #{materialId,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNumber != null">
+        serial_number = #{serialNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isSell != null">
+        is_sell = #{isSell,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="delectFlag != null">
+        delect_flag = #{delectFlag,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null">
+        updator = #{updator,jdbcType=VARCHAR},
+      </if>
+      <if test="documentHeadId != null">
+        document_head_id = #{documentHeadId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ma.clothes.pojo.entity.SerialNumber">
+    update clo_serial_number
+    set material_id = #{materialId,jdbcType=VARCHAR},
+      serial_number = #{serialNumber,jdbcType=VARCHAR},
+      is_sell = #{isSell,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR},
+      delect_flag = #{delectFlag,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updator = #{updator,jdbcType=VARCHAR},
+      document_head_id = #{documentHeadId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
