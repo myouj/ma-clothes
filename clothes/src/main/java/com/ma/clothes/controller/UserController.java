@@ -28,11 +28,7 @@ public class UserController {
         password = password.trim();
 
         User sessionUser = (User) request.getSession().getAttribute("user");
-        if(sessionUser != null){
-            System.out.println(sessionUser.getUsername());
-            System.out.println(sessionUser.getLoginName());
-            System.out.println(sessionUser.getPassword());
-        }
+
         if(sessionUser != null && username.equals(sessionUser.getLoginName()) && password.equals(sessionUser.getPassword())){
             return ResultUtil.result(UserStatus.USER_LOGIN_SUCCESS, "login success", sessionUser);
         }
