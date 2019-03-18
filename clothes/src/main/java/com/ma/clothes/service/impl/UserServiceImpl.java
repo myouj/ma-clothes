@@ -5,7 +5,6 @@ import com.ma.clothes.dao.UserMapper;
 import com.ma.clothes.pojo.entity.User;
 import com.ma.clothes.pojo.entity.UserExample;
 import com.ma.clothes.service.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,9 +17,9 @@ public class UserServiceImpl implements IUserService {
     private UserMapper userMapper;
 
     @Override
-    public User login(String username, String password) {
+    public User selectUserByLoginName(String loginName) {
         UserExample userExample = new UserExample();
-        userExample.createCriteria().andLoginNameEqualTo(username).andPasswordEqualTo(password);
+        userExample.createCriteria().andLoginNameEqualTo(loginName);
         List<User> users = userMapper.selectByExample(userExample);
         if(users.size() == 0){
             return null;
@@ -30,6 +29,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public int validateUser(String loginName, String password) {
+
         List<User> users = null;
         try {
             UserExample userExample = new UserExample();
@@ -39,8 +39,22 @@ public class UserServiceImpl implements IUserService {
             return UserStatus.USER_VALIDATE_EXCEPTION;
         }
         if(null != users && users.size() == 0){
-            System.out.println("22222");
+            return UserStatus.USERNAME_NO_EXIST;
         }
-        return 0;
+
+        try{
+            UserExample userExample = new UserExample();
+            userExample.createCriteria().andLoginNameEqualTo(loginName).andPasswordEqualTo(password);
+            users = userMapper.selectByExample(userExample);
+        }catch (Exception e){
+            return UserStatus.USER_VALIDATE_EXCEPTION;
+        }
+
+        if(null != users && users.size() == 0){
+            return UserStatus.PASSWORD_ERROR;
+        }
+
+        return UserStatus.USER_LOGIN_SUCCESS;
+
     }
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IUserService {
 
-    User login(String username, String password);
+    User selectUserByLoginName(String loginName);
 
     int validateUser(String loginName, String password);
 
