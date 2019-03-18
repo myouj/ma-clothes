@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController()
 @RequestMapping("/user")
 public class UserController {
@@ -20,6 +22,7 @@ public class UserController {
     public ResultUtil userLogin(@RequestParam(value = "username", required = false)String username,
                                 @RequestParam(value = "password", required = false)String password){
         User user = userService.login(username, password);
+        userService.validateUser(username, password);
         return ResultUtil.result(200, "登陆成功", user);
     }
 
