@@ -24,7 +24,7 @@ public class ResultUtil {
     }
 
     public static ResultUtil result(int code, Object data){
-        return result(code, "成功", data);
+        return result(code, "request success", data);
     }
 
     public static ResultUtil result(String message, Object data){
