@@ -7,7 +7,7 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/clothes_city?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useCursorFetch=true&defaultFetchSize=500&allowMultiQueries=true&rewriteBatchedStatements=true&useSSL=false
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: 123456
+    password: 399399
 
 eureka:
   client:
