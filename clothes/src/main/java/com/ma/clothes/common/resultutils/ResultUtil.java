@@ -1,6 +1,5 @@
 package com.ma.clothes.common.resultutils;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 /**

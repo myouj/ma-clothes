@@ -25,6 +25,13 @@ public class ManagerController {
     @Autowired
     private IManagerService managerService;
 
+    /**
+     * 登陆
+     * @param username
+     * @param password
+     * @param request
+     * @return
+     */
     @PostMapping("/login")
     public ResultUtil login(@RequestParam("username") String username,
                             @RequestParam("password") String password,
@@ -50,6 +57,11 @@ public class ManagerController {
         return ResultUtil.result(status, "login success");
     }
 
+    /**
+     * 获取session
+     * @param request
+     * @return
+     */
     @GetMapping("/getSession")
     public ResultUtil getSession(HttpServletRequest request){
         Manager manager = (Manager) request.getSession().getAttribute("manager");

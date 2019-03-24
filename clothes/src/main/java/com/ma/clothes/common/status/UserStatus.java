@@ -10,9 +10,9 @@ public interface UserStatus {
     int USER_VALIDATE_EXCEPTION = 2;
     //登陆成功
     int USER_LOGIN_SUCCESS = 3;
-
+    //session不为空
     int SESSION_NOT_NULL = 4;
-
+    //session为空
     int SESSION_IS_NULL = 5;
 
 
