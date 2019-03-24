@@ -1,9 +1,10 @@
 package com.ma.clothes.pojo.entity;
 
-import java.io.Serializable;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+import lombok.ToString;
+
+import java.io.Serializable;
+
 
 /**
  * <p>
@@ -14,11 +15,12 @@ import lombok.experimental.Accessors;
  * @since 2019-03-24
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
+@ToString
 public class Manager implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    private String id;
 
     private String username;
 

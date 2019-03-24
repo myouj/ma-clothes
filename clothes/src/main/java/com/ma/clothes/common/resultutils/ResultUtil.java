@@ -34,4 +34,8 @@ public class ResultUtil {
     public static ResultUtil result(int code, String message){
         return result(code, message, null);
     }
+
+    public static ResultUtil result(int code){
+        return result(code, "request success", null);
+    }
 }

@@ -15,4 +15,6 @@ public interface IManagerService extends IService<Manager> {
 
     Manager getManagerByUsername(String username);
 
+    int validate(String username, String password);
+
 }

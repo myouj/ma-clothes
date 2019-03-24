@@ -11,6 +11,10 @@ public interface UserStatus {
     //登陆成功
     int USER_LOGIN_SUCCESS = 3;
 
+    int SESSION_NOT_NULL = 4;
+
+    int SESSION_IS_NULL = 5;
+
 
 
 }
