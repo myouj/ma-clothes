@@ -37,8 +37,6 @@ public class ManagerController {
                             @RequestParam("password") String password,
                             HttpServletRequest request){
 
-        username = username.trim();
-        password = password.trim();
 
         Manager manager = (Manager) request.getSession().getAttribute("manager");
         if(manager != null){

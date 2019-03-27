@@ -42,26 +42,16 @@ public class ManagerServiceImpl extends ServiceImpl<ManagerMapper, Manager> impl
         try {
             List<Manager> managers = null;
 
-            try{
-                Map<String, Object> map = new HashMap<>();
-                map.put("username", username);
-                managers = managerMapper.selectByMap(map);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+            QueryWrapper<Manager> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("username", username);
+            managers = managerMapper.selectList(queryWrapper);
 
             if(null != managers && managers.size() == 0){
                 return UserStatus.USERNAME_NO_EXIST;
             }
 
-            try{
-                Map<String, Object> map = new HashMap<>();
-                map.put("username", username);
-                map.put("password", password);
-                managers = managerMapper.selectByMap(map);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+            queryWrapper.eq("password", password);
+            managers = managerMapper.selectList(queryWrapper);
 
             if(null != managers && managers.size() == 0){
                 return UserStatus.PASSWORD_ERROR;
