@@ -11,6 +11,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * <p>
@@ -48,5 +51,42 @@ public class DepotServiceImpl extends ServiceImpl<DepotMapper, Depot> implements
         IPage<Depot> depotIPage = depotMapper.selectPage(depotPage, queryWrapper);
 
         return depotIPage;
+    }
+
+    @Override
+    public int getNewNum() {
+
+        QueryWrapper<Depot> depotQueryWrapper = new QueryWrapper<>();
+        depotQueryWrapper.inSql("num", "select max(num) from depot");
+
+        Depot depot = depotMapper.selectOne(depotQueryWrapper);
+
+        return depot.getNum();
+    }
+
+    @Override
+    public int insertDepot(Depot depot) {
+        return depotMapper.insert(depot);
+    }
+
+    @Override
+    @Transactional
+    public int deleteBatchById(List<String> ids) {
+        return depotMapper.deleteBatchIds(ids);
+    }
+
+    @Override
+    public int deleteById(String id) {
+        return depotMapper.deleteById(id);
+    }
+
+    @Override
+    public Depot selectById(String id) {
+        return depotMapper.selectById(id);
+    }
+
+    @Override
+    public int updateDepot(Depot depot) {
+        return depotMapper.updateById(depot);
     }
 }

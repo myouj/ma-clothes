@@ -21,6 +21,8 @@ public class AllocationInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private String id;
+
     private Integer currDepot;
 
     private Integer toDepot;

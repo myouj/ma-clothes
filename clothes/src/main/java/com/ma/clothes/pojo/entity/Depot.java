@@ -20,6 +20,8 @@ public class Depot implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private String id;
+
     private Integer num;
 
     private String address;
