@@ -37,8 +37,11 @@ public class CodeGenerator {
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
+        //项目路径
         String projectPath = "E:\\JetBrains\\workspace\\ma-clothes\\clothes";
+        //文件路径
         gc.setOutputDir(projectPath + "/src/main/java");
+        //设置作者
         gc.setAuthor("myouj");
         gc.setOpen(false);
         gc.setFileOverride(true);
@@ -58,11 +61,17 @@ public class CodeGenerator {
         PackageConfig pc = new PackageConfig();
         scanner("clothes");
         pc.setModuleName("");
+        //包路径
         pc.setParent("com.ma.clothes");
+        //control层
         pc.setController("controller");
+        //pojo层
         pc.setEntity("pojo.entity");
+        //service层
         pc.setService("service");
+        //service.impl实现层
         pc.setServiceImpl("service.impl");
+        //dao层
         pc.setMapper("dao");
 
         mpg.setPackageInfo(pc);
