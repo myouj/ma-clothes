@@ -38,7 +38,7 @@ public class CodeGenerator {
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
         //项目路径
-        String projectPath = "E:\\JetBrains\\workspace\\ma-clothes\\clothes";
+        String projectPath = "D:\\workspace\\ma-clothes\\clothes";
         //文件路径
         gc.setOutputDir(projectPath + "/src/main/java");
         //设置作者
@@ -54,7 +54,7 @@ public class CodeGenerator {
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("399399");
+        dsc.setPassword("123456");
         mpg.setDataSource(dsc);
 
         // 包配置

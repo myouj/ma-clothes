@@ -3,10 +3,11 @@ package com.ma.clothes.pojo.ao;
 import lombok.Data;
 
 @Data
-public class DepotAO {
+public class GoodsAO {
 
     private Integer num;
-    private String address;
+    private String name;
+
     private Integer page;
     private Integer rows;
 

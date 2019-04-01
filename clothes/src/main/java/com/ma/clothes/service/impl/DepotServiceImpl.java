@@ -32,13 +32,10 @@ public class DepotServiceImpl extends ServiceImpl<DepotMapper, Depot> implements
     @Override
     public IPage<Depot> getDepotList(DepotAO depotAO) {
         Page<Depot> depotPage = new Page<>();
-        if(depotAO.getCurrentPage() == null){
-            depotPage.setCurrent(1);
-            depotPage.setSize(10);
-        }else{
-            depotPage.setCurrent(depotAO.getCurrentPage());
-            depotPage.setSize(depotAO.getPageSize());
-        }
+
+        depotPage.setCurrent(depotAO.getPage());
+        depotPage.setSize(depotAO.getRows());
+
         QueryWrapper<Depot> queryWrapper = new QueryWrapper<>();
         if(depotAO.getNum() != null && depotAO.getNum() != 0){
             queryWrapper.eq("num", depotAO.getNum());
