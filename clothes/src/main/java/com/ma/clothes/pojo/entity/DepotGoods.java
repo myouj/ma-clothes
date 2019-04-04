@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author myouj
- * @since 2019-03-30
+ * @since 2019-04-02
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -24,9 +24,13 @@ public class DepotGoods implements Serializable {
 
     private String depotId;
 
+    private Integer depotNum;
+
     private String goodsId;
 
     private String goodsName;
+
+    private Integer goodsNum;
 
     private Integer count;
 

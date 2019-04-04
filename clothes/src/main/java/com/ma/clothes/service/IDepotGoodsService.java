@@ -1,7 +1,11 @@
 package com.ma.clothes.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.ma.clothes.pojo.ao.DepotGoodsAO;
 import com.ma.clothes.pojo.entity.DepotGoods;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -9,8 +13,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author myouj
- * @since 2019-03-30
+ * @since 2019-04-02
  */
 public interface IDepotGoodsService extends IService<DepotGoods> {
+
+    IPage<DepotGoods> getDepotGoodsList(DepotGoodsAO depotGoodsAO);
 
 }
