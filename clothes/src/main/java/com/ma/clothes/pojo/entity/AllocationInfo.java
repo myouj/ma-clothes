@@ -1,6 +1,6 @@
 package com.ma.clothes.pojo.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author myouj
- * @since 2019-03-30
+ * @since 2019-04-06
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -23,6 +23,8 @@ public class AllocationInfo implements Serializable {
 
     private String id;
 
+    private String number;
+
     private Integer currDepot;
 
     private Integer toDepot;
@@ -31,7 +33,7 @@ public class AllocationInfo implements Serializable {
 
     private Integer amount;
 
-    private LocalDate operatorTime;
+    private LocalDateTime operatorTime;
 
     private String operator;
 

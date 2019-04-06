@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author myouj
- * @since 2019-03-30
+ * @since 2019-04-06
  */
 @Service
 public class AllocationInfoServiceImpl extends ServiceImpl<AllocationInfoMapper, AllocationInfo> implements IAllocationInfoService {

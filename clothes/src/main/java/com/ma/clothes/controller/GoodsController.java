@@ -57,7 +57,7 @@ public class GoodsController {
     public ResultUtil saveGoods(Goods goods){
         System.out.println(goods);
         int i;
-        if(goods.getId() != null && goods.getId() != ""){
+        if(goods.getId() != null && "".equals(goods.getId())){
             goodsService.updateGoods(goods);
             i = 2;
 

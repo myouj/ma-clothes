@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author myouj
- * @since 2019-03-30
+ * @since 2019-04-06
  */
 @RestController
 @RequestMapping("//allocation-info")
