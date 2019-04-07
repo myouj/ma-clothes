@@ -23,7 +23,7 @@ public class AllocationInfo implements Serializable {
 
     private String id;
 
-    private String number;
+    private Integer number;
 
     private Integer currDepot;
 

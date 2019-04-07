@@ -9,6 +9,7 @@ import com.ma.clothes.service.IDepotGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -36,6 +37,12 @@ public class DepotGoodsController {
         int pageSize = (int)iPage.getPages();
         List<DepotGoods> list = iPage.getRecords();
         return EasyUIUtil.result(start, pageSize, total, list);
+    }
+
+    @GetMapping("/getDepotGoodsByDnum")
+    public List<DepotGoods> getDepotGoodsByDnum(@RequestParam("depotNum") String depotNum){
+        List<DepotGoods> list = depotGoodsService.getDepotGoodsByDnumber(depotNum);
+        return list;
     }
 
 }

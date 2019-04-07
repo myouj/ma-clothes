@@ -19,4 +19,6 @@ public interface IDepotGoodsService extends IService<DepotGoods> {
 
     IPage<DepotGoods> getDepotGoodsList(DepotGoodsAO depotGoodsAO);
 
+    List<DepotGoods> getDepotGoodsByDnumber(String dnumber);
+
 }

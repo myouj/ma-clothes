@@ -32,6 +32,8 @@ public class DepotGoods implements Serializable {
 
     private Integer goodsNum;
 
+    private String unit;
+
     private Integer count;
 
     private String remark;

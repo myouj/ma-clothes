@@ -86,4 +86,10 @@ public class DepotServiceImpl extends ServiceImpl<DepotMapper, Depot> implements
     public int updateDepot(Depot depot) {
         return depotMapper.updateById(depot);
     }
+
+    @Override
+    public List<Depot> getDepot() {
+        QueryWrapper<Depot> queryWrapper = new QueryWrapper<>();
+        return depotMapper.selectList(queryWrapper);
+    }
 }

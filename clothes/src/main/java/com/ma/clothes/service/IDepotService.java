@@ -32,4 +32,6 @@ public interface IDepotService extends IService<Depot> {
 
     int updateDepot(Depot depot);
 
+    List<Depot> getDepot();
+
 }

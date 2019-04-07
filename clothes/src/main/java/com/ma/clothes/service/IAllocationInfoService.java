@@ -13,4 +13,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IAllocationInfoService extends IService<AllocationInfo> {
 
+    int getNewNum();
+
 }

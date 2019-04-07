@@ -99,4 +99,9 @@ public class DepotController {
         return ResultUtil.result(200, depot);
     }
 
+    @GetMapping("/getDepot")
+    public List<Depot> getDepot(){
+        List<Depot> depots = depotService.getDepot();
+        return depots;
+    }
 }

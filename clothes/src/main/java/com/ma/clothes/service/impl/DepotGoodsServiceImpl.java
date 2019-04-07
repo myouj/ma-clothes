@@ -11,6 +11,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -46,5 +48,13 @@ public class DepotGoodsServiceImpl extends ServiceImpl<DepotGoodsMapper, DepotGo
 
         IPage<DepotGoods> depotGoodsIPage = depotGoodsMapper.selectPage(depotGoodsPage, depotGoodsQueryWrapper);
         return depotGoodsIPage;
+    }
+
+    @Override
+    public List<DepotGoods> getDepotGoodsByDnumber(String dnumber) {
+        QueryWrapper<DepotGoods> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("depot_num", dnumber);
+
+        return depotGoodsMapper.selectList(queryWrapper);
     }
 }

@@ -31,4 +31,6 @@ public interface IGoodsService extends IService<Goods> {
 
     void deleteBatchByIds(List<String> list);
 
+
+
 }

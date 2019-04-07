@@ -1,9 +1,11 @@
 package com.ma.clothes.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ma.clothes.pojo.ao.GoodsAO;
+import com.ma.clothes.pojo.entity.Depot;
 import com.ma.clothes.pojo.entity.Goods;
 import com.ma.clothes.dao.GoodsMapper;
 import com.ma.clothes.service.IGoodsService;
@@ -83,4 +85,6 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     public void deleteBatchByIds(List<String> list) {
         goodsMapper.deleteBatchIds(list);
     }
+
+
 }
