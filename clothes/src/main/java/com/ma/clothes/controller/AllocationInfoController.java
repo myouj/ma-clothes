@@ -2,9 +2,11 @@ package com.ma.clothes.controller;
 
 
 import com.ma.clothes.common.resultutils.ResultUtil;
+import com.ma.clothes.pojo.entity.AllocationInfo;
 import com.ma.clothes.service.IAllocationInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -28,5 +30,11 @@ public class AllocationInfoController {
     public ResultUtil getNewNum(){
         int newNum = allocationInfoService.getNewNum();
         return ResultUtil.result(200, newNum + 1);
+    }
+
+    @RequestMapping("/insert")
+    public ResultUtil insert(AllocationInfo allocationInfo){
+        System.out.println(allocationInfo);
+        return ResultUtil.result(200);
     }
 }
