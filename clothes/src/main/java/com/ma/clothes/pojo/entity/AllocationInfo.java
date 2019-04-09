@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
@@ -17,6 +18,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
+@ToString
 public class AllocationInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -33,7 +35,7 @@ public class AllocationInfo implements Serializable {
 
     private Integer amount;
 
-    private LocalDateTime operatorTime;
+    private String operatorTime;
 
     private String operator;
 
