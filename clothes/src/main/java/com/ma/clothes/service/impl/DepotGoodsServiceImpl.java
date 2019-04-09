@@ -57,4 +57,13 @@ public class DepotGoodsServiceImpl extends ServiceImpl<DepotGoodsMapper, DepotGo
 
         return depotGoodsMapper.selectList(queryWrapper);
     }
+
+    @Override
+    public DepotGoods getDepotByDnumAndGoods(Integer dnum, String goods) {
+        QueryWrapper<DepotGoods> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("depot_num", dnum);
+        queryWrapper.eq("goods_name", goods);
+        DepotGoods depotGoods = depotGoodsMapper.selectOne(queryWrapper);
+        return depotGoods;
+    }
 }

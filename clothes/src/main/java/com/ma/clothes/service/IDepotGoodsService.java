@@ -21,4 +21,6 @@ public interface IDepotGoodsService extends IService<DepotGoods> {
 
     List<DepotGoods> getDepotGoodsByDnumber(String dnumber);
 
+    DepotGoods getDepotByDnumAndGoods(Integer dnum, String goods);
+
 }

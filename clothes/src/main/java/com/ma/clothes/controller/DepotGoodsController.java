@@ -3,6 +3,7 @@ package com.ma.clothes.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ma.clothes.common.resultutils.EasyUIUtil;
+import com.ma.clothes.common.resultutils.ResultUtil;
 import com.ma.clothes.pojo.ao.DepotGoodsAO;
 import com.ma.clothes.pojo.entity.DepotGoods;
 import com.ma.clothes.service.IDepotGoodsService;
@@ -43,6 +44,13 @@ public class DepotGoodsController {
     public List<DepotGoods> getDepotGoodsByDnum(@RequestParam("depotNum") String depotNum){
         List<DepotGoods> list = depotGoodsService.getDepotGoodsByDnumber(depotNum);
         return list;
+    }
+
+    @GetMapping("/getCountsByDnumAndGoods")
+    public ResultUtil getCountsByDnumAndGoods(@RequestParam("depotNum") Integer depotNum,
+                                              @RequestParam("goodsName") String goodsName){
+        DepotGoods goods = depotGoodsService.getDepotByDnumAndGoods(depotNum, goodsName);
+        return ResultUtil.result(200, goods);
     }
 
 }
