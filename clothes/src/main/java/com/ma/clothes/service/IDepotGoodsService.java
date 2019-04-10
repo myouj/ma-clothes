@@ -2,6 +2,7 @@ package com.ma.clothes.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ma.clothes.pojo.ao.DepotGoodsAO;
+import com.ma.clothes.pojo.entity.AllocationInfo;
 import com.ma.clothes.pojo.entity.DepotGoods;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -22,5 +23,7 @@ public interface IDepotGoodsService extends IService<DepotGoods> {
     List<DepotGoods> getDepotGoodsByDnumber(String dnumber);
 
     DepotGoods getDepotByDnumAndGoods(Integer dnum, String goods);
+
+    Integer save(AllocationInfo allocationInfo, List<DepotGoods> list);
 
 }
