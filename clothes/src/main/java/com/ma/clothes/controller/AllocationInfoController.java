@@ -2,23 +2,26 @@ package com.ma.clothes.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.ma.clothes.common.resultutils.EasyUIUtil;
 import com.ma.clothes.common.resultutils.ResultUtil;
 import com.ma.clothes.common.status.DepotStatus;
 import com.ma.clothes.dao.DepotGoodsMapper;
+import com.ma.clothes.pojo.ao.AllocationAO;
+import com.ma.clothes.pojo.dto.GoodsDTO;
 import com.ma.clothes.pojo.entity.AllocationInfo;
 import com.ma.clothes.pojo.entity.DepotGoods;
 import com.ma.clothes.pojo.entity.Goods;
 import com.ma.clothes.service.IAllocationInfoService;
 import com.ma.clothes.service.IDepotGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
-
+import javax.xml.transform.Result;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -38,8 +41,6 @@ public class AllocationInfoController implements DepotStatus {
     @Autowired
     private IDepotGoodsService depotGoodsService;
 
-    @Autowired
-    private DepotGoodsMapper depotGoodsMapper;
 
     @GetMapping("/getNewNum")
     public ResultUtil getNewNum(){
@@ -69,22 +70,37 @@ public class AllocationInfoController implements DepotStatus {
         return ResultUtil.result(200, status);
     }
 
-    /**
-     * 测试查询没有的信息是否返回null
-     * @return
-     */
-    @GetMapping("/test")
-    public String test(){
-        QueryWrapper<DepotGoods> toq = new QueryWrapper<>();
-        toq.eq("depot_num", 5);
-        toq.eq("goods_name", "菠萝");
-        DepotGoods to = depotGoodsMapper.selectOne(toq);
-        //如果不存在，直接插入一条数据，如果存在，更新商品库存数量
-        if(to == null){
-            System.out.println("is null");
-        }else{
-            System.out.println("not null");
+    @GetMapping("/getAllocationList")
+   public EasyUIUtil getAllocationList(AllocationAO allocationAO){
+        IPage<AllocationInfo> allocationList = allocationInfoService.getAllocationList(allocationAO);
+        int total = (int)allocationList.getTotal();
+        int start = (int)allocationList.getCurrent();
+        int pageSize = (int)allocationList.getPages();
+        List<AllocationInfo> list = allocationList.getRecords();
+        return EasyUIUtil.result(start,pageSize,total,list);
+    }
+
+    @GetMapping("/getAllocationById")
+    public ResultUtil getAllocationById(@RequestParam("id")String id){
+        AllocationInfo all = allocationInfoService.getById(id);
+
+        String goodsInfo = all.getGoodsInfo();
+
+        String[] sp = goodsInfo.split(";");
+        List<GoodsDTO> goodsDTOS = new ArrayList<>();
+        for(String g : sp){
+            GoodsDTO goodsDTO = new GoodsDTO();
+            String[] good = g.split(":");
+            goodsDTO.setGoods(good[0]);
+            goodsDTO.setCount(Integer.valueOf(good[1]));
+            goodsDTO.setUnit(good[2]);
+            goodsDTOS.add(goodsDTO);
         }
-        return "ok";
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("all", all);
+        map.put("goods", goodsDTOS);
+
+        return ResultUtil.result(200, map);
     }
 }

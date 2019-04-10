@@ -1,7 +1,9 @@
 package com.ma.clothes.service;
 
-import com.ma.clothes.pojo.entity.AllocationInfo;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ma.clothes.pojo.ao.AllocationAO;
+import com.ma.clothes.pojo.entity.AllocationInfo;
 
 /**
  * <p>
@@ -14,5 +16,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface IAllocationInfoService extends IService<AllocationInfo> {
 
     int getNewNum();
+
+    IPage<AllocationInfo> getAllocationList(AllocationAO allocationAO);
 
 }
