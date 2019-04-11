@@ -1,6 +1,6 @@
 package com.ma.clothes.dao;
 
-import com.ma.clothes.pojo.entity.DepotInfo;
+import com.ma.clothes.pojo.entity.Supplier;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author myouj
  * @since 2019-04-11
  */
-public interface DepotInfoMapper extends BaseMapper<DepotInfo> {
+public interface SupplierMapper extends BaseMapper<Supplier> {
 
 }

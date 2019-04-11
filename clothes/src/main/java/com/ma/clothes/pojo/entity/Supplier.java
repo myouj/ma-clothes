@@ -1,6 +1,5 @@
 package com.ma.clothes.pojo.entity;
 
-import java.time.LocalDate;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,29 +16,21 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class DepotInfo implements Serializable {
+public class Supplier implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String id;
 
-    private Integer document;
+    private Integer num;
 
-    private String customer;
+    private String company;
 
-    private String goodsInfo;
+    private String manager;
 
-    private String operatorTime;
-
-    private String operator;
-
-    private Integer amount;
-
-    private Double sum;
+    private String telephone;
 
     private String remark;
-
-    private Boolean inOrOut;
 
 
 }
