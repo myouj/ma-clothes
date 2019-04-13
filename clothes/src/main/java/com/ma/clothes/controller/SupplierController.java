@@ -91,4 +91,10 @@ public class SupplierController {
 
         return ResultUtil.result(200);
     }
+
+    @GetMapping("getSupplierList")
+    public List<Supplier> getSupplierList(){
+        List<Supplier> list = supplierService.list();
+        return list;
+    }
 }

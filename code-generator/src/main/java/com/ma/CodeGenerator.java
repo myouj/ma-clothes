@@ -38,7 +38,7 @@ public class CodeGenerator {
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
         //项目路径
-        String projectPath = "E:\\JetBrains\\workspace\\ma-clothes\\clothes";
+        String projectPath = "D:\\workspace\\ma-clothes\\clothes";
         //文件路径
         gc.setOutputDir(projectPath + "/src/main/java");
         //设置作者

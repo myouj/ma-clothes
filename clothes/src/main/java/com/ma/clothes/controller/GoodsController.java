@@ -1,6 +1,7 @@
 package com.ma.clothes.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ma.clothes.common.resultutils.EasyUIUtil;
 import com.ma.clothes.common.resultutils.ResultUtil;
@@ -98,6 +99,19 @@ public class GoodsController {
         return ResultUtil.result(200);
     }
 
+    @GetMapping("/getGoods")
+    public List<Goods> getGoodsList(){
+        List<Goods> list = goodsService.list();
+        return list;
+    }
+
+    @GetMapping("/getGoodsByName")
+    public ResultUtil getGoodsByName(@RequestParam("name")String name){
+        QueryWrapper<Goods> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("name", name);
+        Goods one = goodsService.getOne(queryWrapper);
+        return ResultUtil.result(200, one);
+    }
 
 
 }
