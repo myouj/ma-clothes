@@ -4,9 +4,11 @@ package com.ma.clothes.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ma.clothes.common.resultutils.EasyUIUtil;
 import com.ma.clothes.common.resultutils.ResultUtil;
 import com.ma.clothes.common.status.DepotStatus;
+import com.ma.clothes.common.status.PurchaseStatus;
 import com.ma.clothes.common.tools.MyException;
 import com.ma.clothes.common.tools.StringUtils;
 import com.ma.clothes.pojo.ao.PurchaseAO;
@@ -33,7 +35,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("//purchase")
-public class PurchaseController {
+public class PurchaseController{
 
     @Autowired
     private IPurchaseService purchaseService;
@@ -117,8 +119,26 @@ public class PurchaseController {
             return ResultUtil.result(500, message);
         }catch (Exception e){
             e.printStackTrace();
+            return ResultUtil.result(500, "出现异常,入库失败");
         }
         return ResultUtil.result(200, i);
+    }
+
+    @GetMapping("/outPurchase")
+    public ResultUtil outPurchase(@RequestParam("id") String id,
+                                  @RequestParam("operator")String operator,
+                                  @RequestParam("status") byte status){
+        try{
+            purchaseService.outPurchase(id, operator, status);
+        }catch (MyException e){
+            e.printStackTrace();
+            return ResultUtil.result(500, e.getMessage());
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultUtil.result(500, "出现异常，退货失败");
+        }
+
+        return ResultUtil.result(200);
     }
 
 }

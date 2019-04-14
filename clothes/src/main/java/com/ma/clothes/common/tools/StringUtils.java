@@ -16,9 +16,15 @@ public class StringUtils {
     }
 
     public static void main(String[] args) {
-        String s = "dfadfa,fdasfdsa,fdafdsa,fdafdsa,";
-        String[] strings = string2Array(s, ",");
-        System.out.println(strings.length);
+//        String s = "dfadfa,fdasfdsa,fdafdsa,fdafdsa,";
+//        String[] strings = string2Array(s, ",");
+//        System.out.println(strings.length);
+
+        Integer i = 5000;
+        if(i >= Integer.valueOf("5000")){
+            System.out.println("yes");
+        }
+
     }
 
 }

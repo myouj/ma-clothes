@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * easyui datagrid 分页返回格式
+ */
 @Data
 public class EasyUIUtil {
 

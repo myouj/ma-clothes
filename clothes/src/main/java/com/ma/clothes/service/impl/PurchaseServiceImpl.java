@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ma.clothes.common.status.DepotStatus;
+import com.ma.clothes.common.status.PurchaseStatus;
 import com.ma.clothes.common.tools.MyException;
 import com.ma.clothes.common.tools.StringUtils;
 import com.ma.clothes.dao.*;
@@ -28,7 +29,8 @@ import java.util.List;
  * @since 2019-04-13
  */
 @Service
-public class PurchaseServiceImpl extends ServiceImpl<PurchaseMapper, Purchase> implements IPurchaseService {
+public class PurchaseServiceImpl extends ServiceImpl<PurchaseMapper, Purchase>
+        implements IPurchaseService, PurchaseStatus {
 
     @Autowired
     private PurchaseMapper purchaseMapper;
@@ -164,6 +166,53 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseMapper, Purchase> i
             }
         }
 
+        return 0;
+    }
+
+    @Override
+    @Transactional
+    public int outPurchase(String id, String operator, byte status) throws MyException {
+        //1.更新采购信息，设置为退货状态
+        Purchase purchase = purchaseMapper.selectById(id);
+        purchase.setOperator(purchase.getOperator() + "," + operator);
+        purchase.setStatus((byte)3);
+        purchaseMapper.updateById(purchase);
+        //2.判断是否入库
+        if(status == IN_DEPOT){
+            //3.列出商品信息
+            String[] split = purchase.getGoodsInfo().split(";");
+            for(String s : split){
+                String[] goods = s.split(":");
+                //4.获取库存信息
+                QueryWrapper<DepotGoods> depotGoodsQueryWrapper = new QueryWrapper<>();
+                depotGoodsQueryWrapper.eq("depot_num", goods[0]);
+                depotGoodsQueryWrapper.eq("goods_name", goods[1]);
+                DepotGoods depotGoods = depotGoodsMapper.selectOne(depotGoodsQueryWrapper);
+                //5.库存数量是否和退货数量相等
+                if(depotGoods.getCount().equals(Integer.valueOf(goods[2]))){
+                    depotGoodsMapper.deleteById(depotGoods.getId());
+                }else if(depotGoods.getCount() > Integer.valueOf(goods[2])){
+                    depotGoods.setCount(depotGoods.getCount() - Integer.valueOf(goods[2]));
+                    depotGoodsMapper.updateById(depotGoods);
+                }else{
+                    throw new MyException("商品已经卖出，无法退货");
+                }
+                //6.仓库库存增加
+                QueryWrapper<Depot> depotQueryWrapper = new QueryWrapper<>();
+                depotQueryWrapper.eq("num", Integer.valueOf(goods[0]));
+                Depot depot = depotMapper.selectOne(depotQueryWrapper);
+                depot.setCurrCount(depot.getCurrCount() + Integer.valueOf(goods[2]));
+                depotMapper.updateById(depot);
+            }
+            //将入库信息变为退货
+            QueryWrapper<DepotInfo> depotInfoQueryWrapper = new QueryWrapper<>();
+            depotInfoQueryWrapper.eq("goods_info", purchase.getGoodsInfo());
+            depotInfoQueryWrapper.eq("customer", purchase.getSupplier());
+            DepotInfo depotInfo = depotInfoMapper.selectOne(depotInfoQueryWrapper);
+            depotInfo.setInOrOut(false);
+            depotInfo.setOperator(operator);
+            depotInfoMapper.updateById(depotInfo);
+        }
         return 0;
     }
 }
