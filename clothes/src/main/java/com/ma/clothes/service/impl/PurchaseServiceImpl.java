@@ -22,7 +22,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author myouj
@@ -56,21 +56,21 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseMapper, Purchase>
 
         QueryWrapper<Purchase> queryWrapper = new QueryWrapper<>();
         //判断编号是否有值
-        if(purchaseAO.getNum() != null && purchaseAO.getNum() != 0){
+        if (purchaseAO.getNum() != null && purchaseAO.getNum() != 0) {
             queryWrapper.eq("num", purchaseAO.getNum());
         }
         //判断商品信息是否有值
-        if(purchaseAO.getGoodsInfo() != null && !"".equals(purchaseAO.getGoodsInfo())){
+        if (purchaseAO.getGoodsInfo() != null && !"".equals(purchaseAO.getGoodsInfo())) {
             queryWrapper.like("goods_info", purchaseAO.getGoodsInfo());
         }
         //判断时间是否有值
-        if(purchaseAO.getBeginTime() != null && !"".equals(purchaseAO.getBeginTime())
-                && purchaseAO.getEndTime() != null && !"".equals(purchaseAO.getEndTime())){
+        if (purchaseAO.getBeginTime() != null && !"".equals(purchaseAO.getBeginTime())
+                && purchaseAO.getEndTime() != null && !"".equals(purchaseAO.getEndTime())) {
             queryWrapper.ge("operate_time", purchaseAO.getBeginTime());
             queryWrapper.le("operate_time", purchaseAO.getEndTime());
-        }else if (purchaseAO.getBeginTime() != null &&  !"".equals(purchaseAO.getBeginTime())){
+        } else if (purchaseAO.getBeginTime() != null && !"".equals(purchaseAO.getBeginTime())) {
             queryWrapper.ge("operate_time", purchaseAO.getBeginTime());
-        }else if (purchaseAO.getEndTime() != null && !"".equals(purchaseAO.getEndTime())){
+        } else if (purchaseAO.getEndTime() != null && !"".equals(purchaseAO.getEndTime())) {
             queryWrapper.le("operate_time", purchaseAO.getEndTime());
         }
 
@@ -85,14 +85,14 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseMapper, Purchase>
         //1.更新采购订单信息
         Purchase purchase = purchaseMapper.selectById(id);
         purchase.setOperator(purchase.getOperator() + "," + operator);
-        purchase.setStatus((byte)2);
+        purchase.setStatus((byte) 2);
         purchaseMapper.updateById(purchase);
 
         //2.分析商品信息
         String[] split = purchase.getGoodsInfo().split(";");
         int sum = 0;
         List<GoodsDTO> list = new ArrayList<>();
-        for(String s : split){
+        for (String s : split) {
             GoodsDTO goodsDTO = new GoodsDTO();
             String[] goods = s.split(":");
             goodsDTO.setNum(Integer.valueOf(goods[0]));
@@ -124,15 +124,15 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseMapper, Purchase>
         depotInfoMapper.insert(depotInfo);
 
         //5.处理商品入库
-        for(GoodsDTO goodsDTO : list){
+        for (GoodsDTO goodsDTO : list) {
             //5.1获取仓库信息
             QueryWrapper<Depot> depotQueryWrapper = new QueryWrapper<>();
             depotQueryWrapper.eq("num", goodsDTO.getNum());
             Depot depot = depotMapper.selectOne(depotQueryWrapper);
             //5.2判断仓库是否放得下,如果放得下，更新仓库库存数量
-            if(depot.getCapacity() < depot.getCurrCount() + goodsDTO.getCount()){
+            if (depot.getCapacity() < depot.getCurrCount() + goodsDTO.getCount()) {
                 throw new MyException(depot.getNum() + "号仓库放不下了");
-            }else{
+            } else {
                 depot.setCurrCount(depot.getCurrCount() + goodsDTO.getCount());
                 depotMapper.updateById(depot);
             }
@@ -147,11 +147,11 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseMapper, Purchase>
             depotGoodsQueryWrapper.eq("goods_name", goodsDTO.getGoods());
             DepotGoods depotGoods = depotGoodsMapper.selectOne(depotGoodsQueryWrapper);
             //5.5有库存信息就更新，没有就插入
-            if(depotGoods != null){
+            if (depotGoods != null) {
                 depotGoods.setCount(depotGoods.getCount() + goodsDTO.getCount());
                 depotGoods.setRemark(purchase.getRemark());
                 depotGoodsMapper.updateById(depotGoods);
-            }else{
+            } else {
                 depotGoods = new DepotGoods();
                 depotGoods.setId(StringUtils.getUUID());
                 depotGoods.setDepotId(depot.getId());
@@ -171,48 +171,38 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseMapper, Purchase>
 
     @Override
     @Transactional
-    public int outPurchase(String id, String operator, byte status) throws MyException {
-        //1.更新采购信息，设置为退货状态
-        Purchase purchase = purchaseMapper.selectById(id);
-        purchase.setOperator(purchase.getOperator() + "," + operator);
-        purchase.setStatus((byte)3);
-        purchaseMapper.updateById(purchase);
-        //2.判断是否入库
-        if(status == IN_DEPOT){
-            //3.列出商品信息
-            String[] split = purchase.getGoodsInfo().split(";");
-            for(String s : split){
-                String[] goods = s.split(":");
-                //4.获取库存信息
-                QueryWrapper<DepotGoods> depotGoodsQueryWrapper = new QueryWrapper<>();
-                depotGoodsQueryWrapper.eq("depot_num", goods[0]);
-                depotGoodsQueryWrapper.eq("goods_name", goods[1]);
-                DepotGoods depotGoods = depotGoodsMapper.selectOne(depotGoodsQueryWrapper);
-                //5.库存数量是否和退货数量相等
-                if(depotGoods.getCount().equals(Integer.valueOf(goods[2]))){
-                    depotGoodsMapper.deleteById(depotGoods.getId());
-                }else if(depotGoods.getCount() > Integer.valueOf(goods[2])){
-                    depotGoods.setCount(depotGoods.getCount() - Integer.valueOf(goods[2]));
-                    depotGoodsMapper.updateById(depotGoods);
-                }else{
-                    throw new MyException("商品已经卖出，无法退货");
-                }
-                //6.仓库库存增加
-                QueryWrapper<Depot> depotQueryWrapper = new QueryWrapper<>();
-                depotQueryWrapper.eq("num", Integer.valueOf(goods[0]));
-                Depot depot = depotMapper.selectOne(depotQueryWrapper);
-                depot.setCurrCount(depot.getCurrCount() + Integer.valueOf(goods[2]));
-                depotMapper.updateById(depot);
+    public int outPurchase(String id, String operator) throws MyException {
+        DepotInfo depotInfo1 = depotInfoMapper.selectById(id);
+        //列出商品信息
+        String[] split = depotInfo1.getGoodsInfo().split(";");
+        for (String s : split) {
+            String[] goods = s.split(":");
+            //4.获取库存信息
+            QueryWrapper<DepotGoods> depotGoodsQueryWrapper = new QueryWrapper<>();
+            depotGoodsQueryWrapper.eq("depot_num", goods[0]);
+            depotGoodsQueryWrapper.eq("goods_name", goods[1]);
+            DepotGoods depotGoods = depotGoodsMapper.selectOne(depotGoodsQueryWrapper);
+            //5.库存数量是否和退货数量相等
+            if (depotGoods.getCount().equals(Integer.valueOf(goods[2]))) {
+                depotGoodsMapper.deleteById(depotGoods.getId());
+            } else if (depotGoods.getCount() > Integer.valueOf(goods[2])) {
+                depotGoods.setCount(depotGoods.getCount() - Integer.valueOf(goods[2]));
+                depotGoodsMapper.updateById(depotGoods);
+            } else {
+                throw new MyException(depotGoods.getGoodsName() + "已经卖出，无法退货");
             }
-            //将入库信息变为退货
-            QueryWrapper<DepotInfo> depotInfoQueryWrapper = new QueryWrapper<>();
-            depotInfoQueryWrapper.eq("goods_info", purchase.getGoodsInfo());
-            depotInfoQueryWrapper.eq("customer", purchase.getSupplier());
-            DepotInfo depotInfo = depotInfoMapper.selectOne(depotInfoQueryWrapper);
-            depotInfo.setInOrOut(false);
-            depotInfo.setOperator(operator);
-            depotInfoMapper.updateById(depotInfo);
+            //6.仓库库存增加
+            QueryWrapper<Depot> depotQueryWrapper = new QueryWrapper<>();
+            depotQueryWrapper.eq("num", Integer.valueOf(goods[0]));
+            Depot depot = depotMapper.selectOne(depotQueryWrapper);
+            depot.setCurrCount(depot.getCurrCount() + Integer.valueOf(goods[2]));
+            depotMapper.updateById(depot);
         }
+        //将入库信息变为退货
+        depotInfo1.setInOrOut(false);
+        depotInfo1.setOperator(depotInfo1.getOperator() + "," + operator);
+        depotInfoMapper.updateById(depotInfo1);
+
         return 0;
     }
 }

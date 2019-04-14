@@ -20,6 +20,6 @@ public interface IPurchaseService extends IService<Purchase> {
 
     int depotPurchase(String id, String operator) throws MyException;
 
-    int outPurchase(String id, String operator, byte status) throws MyException;
+    int outPurchase(String id, String operator) throws MyException;
 
 }

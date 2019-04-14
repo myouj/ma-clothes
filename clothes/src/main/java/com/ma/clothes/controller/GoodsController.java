@@ -57,22 +57,22 @@ public class GoodsController {
     @PostMapping("/saveGoods")
     public ResultUtil saveGoods(Goods goods){
         System.out.println(goods);
-        int i;
         if(goods.getId() != null && !"".equals(goods.getId())){
             goodsService.updateGoods(goods);
-            i = 2;
+            return ResultUtil.result(200, 2);
 
         }else{
-            goods.setId(StringUtils.getUUID());
-            goodsService.insert(goods);
-            i = 3;
+            QueryWrapper<Goods> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("name", goods.getName());
+            Goods one = goodsService.getOne(queryWrapper);
+            if(one == null){
+                goods.setId(StringUtils.getUUID());
+                goodsService.insert(goods);
+                return ResultUtil.result(200, 3);
+            }
         }
 
-        if(i == 2 || i == 3){
-            return ResultUtil.result(200, i);
-        }else{
-            return ResultUtil.result(500);
-        }
+            return ResultUtil.result(500, "商品已存在");
     }
 
     @GetMapping("/deleteGoodsById")

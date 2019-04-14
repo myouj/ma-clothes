@@ -126,10 +126,9 @@ public class PurchaseController{
 
     @GetMapping("/outPurchase")
     public ResultUtil outPurchase(@RequestParam("id") String id,
-                                  @RequestParam("operator")String operator,
-                                  @RequestParam("status") byte status){
+                                  @RequestParam("operator")String operator){
         try{
-            purchaseService.outPurchase(id, operator, status);
+            purchaseService.outPurchase(id, operator);
         }catch (MyException e){
             e.printStackTrace();
             return ResultUtil.result(500, e.getMessage());
