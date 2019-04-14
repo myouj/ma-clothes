@@ -47,6 +47,9 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseMapper, Purchase>
     @Autowired
     private DepotGoodsMapper depotGoodsMapper;
 
+    @Autowired
+    private FinanceMapper financeMapper;
+
 
     @Override
     public IPage<Purchase> getList(PurchaseAO purchaseAO) {
@@ -165,7 +168,14 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseMapper, Purchase>
                 depotGoodsMapper.insert(depotGoods);
             }
         }
-
+        //6.更新财务
+        Finance finance = new Finance();
+        finance.setId(StringUtils.getUUID());
+        finance.setProperties("采购订货");
+        finance.setOrderId(purchase.getNum().toString());
+        finance.setInOrOut(false);
+        finance.setAmount(purchase.getAmount());
+        financeMapper.insert(finance);
         return 0;
     }
 
@@ -203,6 +213,14 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseMapper, Purchase>
         depotInfo1.setOperator(depotInfo1.getOperator() + "," + operator);
         depotInfoMapper.updateById(depotInfo1);
 
+        //更新财务表
+        Finance finance = new Finance();
+        finance.setId(StringUtils.getUUID());
+        finance.setProperties("采购退货");
+        finance.setOrderId(depotInfo1.getDocument().toString());
+        finance.setInOrOut(true);
+        finance.setAmount(depotInfo1.getAmount());
+        financeMapper.insert(finance);
         return 0;
     }
 }
