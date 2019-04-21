@@ -140,4 +140,15 @@ public class PurchaseController{
         return ResultUtil.result(200);
     }
 
+    @GetMapping("/delete")
+    public ResultUtil delete(@RequestParam("id")String id){
+        try {
+            purchaseService.removeById(id);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultUtil.result(500);
+        }
+        return ResultUtil.result(200);
+    }
+
 }
