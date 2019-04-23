@@ -31,7 +31,7 @@ public class Orders implements Serializable {
 
     private String operator;
 
-    private LocalDateTime operateTime;
+    private String operateTime;
 
     private Double amount;
 
