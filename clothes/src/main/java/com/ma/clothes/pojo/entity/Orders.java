@@ -35,7 +35,7 @@ public class Orders implements Serializable {
 
     private Double amount;
 
-    private Boolean status;
+    private Byte status;
 
     private String remark;
 
