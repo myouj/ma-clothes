@@ -44,7 +44,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
     private FinanceMapper financeMapper;
 
     @Override
-    public IPage<Orders> getList(OrdersAO ordersAO) {
+    public IPage<Orders> getList(OrdersAO ordersAO, Boolean in) {
         Page<Orders> page = new Page<>();
         page.setCurrent(ordersAO.getPage());
         page.setSize(ordersAO.getRows());
@@ -68,8 +68,11 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         } else if (ordersAO.getEndTime() != null && !"".equals(ordersAO.getEndTime())) {
             queryWrapper.le("operate_time", ordersAO.getEndTime());
         }
-
-        queryWrapper.ne("status", "3");
+        if(in){
+            queryWrapper.notIn("status", "3", "4");
+        }else{
+            queryWrapper.notIn("status", "0", "1", "2");
+        }
 
         IPage<Orders> iPage = ordersMapper.selectPage(page, queryWrapper);
 
@@ -110,18 +113,68 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
             Depot depot = depotMapper.selectOne(depotQueryWrapper);
             depot.setCurrCount(depot.getCurrCount() - Integer.valueOf(goods[2]));
             depotMapper.updateById(depot);
-
-            //增加财务信息
-            Finance finance = new Finance();
-            finance.setId(StringUtils.getUUID());
-            finance.setProperties("订货出库");
-            finance.setOrderId(orders.getId());
-            finance.setInOrOut(true);
-            finance.setAmount(orders.getAmount());
-            financeMapper.insert(finance);
-
         }
 
+        //增加财务信息
+        Finance finance = new Finance();
+        finance.setId(StringUtils.getUUID());
+        finance.setProperties("订单出库");
+        finance.setOrderId(orders.getId());
+        finance.setInOrOut(true);
+        finance.setAmount(orders.getAmount());
+        financeMapper.insert(finance);
+    }
 
+    @Override
+    @Transactional
+    public void checkReturn(String id, String operator) {
+        //查询退货单
+        Orders orders = ordersMapper.selectById(id);
+        //更新退货单
+        orders.setStatus((byte)4);
+        orders.setOperator(orders.getOperator() + "," + operator);
+        ordersMapper.updateById(orders);
+
+        //解析商品
+        String[] split = orders.getGoodsInfo().split(";");
+        for(String s : split){
+            String[] goods = s.split(":");
+            //查询商品库存是否存在
+            QueryWrapper<DepotGoods> depotGoodsQueryWrapper = new QueryWrapper<>();
+            depotGoodsQueryWrapper.eq("depot_num", goods[0]);
+            depotGoodsQueryWrapper.eq("goods_name", goods[1]);
+            DepotGoods depotGoods = depotGoodsMapper.selectOne(depotGoodsQueryWrapper);
+
+            //存在则更新库存，不存在则插入
+            if(depotGoods != null){
+                depotGoods.setCount(depotGoods.getCount() + Integer.valueOf(goods[2]));
+                depotGoodsMapper.updateById(depotGoods);
+            }else{
+                depotGoods = new DepotGoods();
+                depotGoods.setId(StringUtils.getUUID());
+                depotGoods.setDepotNum(Integer.valueOf(goods[0]));
+                depotGoods.setGoodsName(goods[1]);
+                depotGoods.setUnit(goods[4]);
+                depotGoods.setCount(Integer.valueOf(goods[2]));
+                depotGoods.setRemark(orders.getRemark());
+                depotGoodsMapper.insert(depotGoods);
+            }
+
+            //更新仓库容量
+            QueryWrapper<Depot> depotQueryWrapper = new QueryWrapper<>();
+            depotQueryWrapper.eq("num", goods[0]);
+            Depot depot = depotMapper.selectOne(depotQueryWrapper);
+            depot.setCurrCount(depot.getCurrCount() + Integer.valueOf(goods[2]));
+            depotMapper.updateById(depot);
+        }
+
+        //增加财务信息
+        Finance finance = new Finance();
+        finance.setId(StringUtils.getUUID());
+        finance.setProperties("订单退货");
+        finance.setOrderId(orders.getId());
+        finance.setInOrOut(false);
+        finance.setAmount(orders.getAmount());
+        financeMapper.insert(finance);
     }
 }

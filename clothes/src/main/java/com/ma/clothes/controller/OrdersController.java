@@ -44,9 +44,13 @@ public class OrdersController {
 
 
     @PostMapping("/insert")
-    public ResultUtil insert(Orders orders){
+    public ResultUtil insert(Orders orders, @RequestParam("do")Boolean in){
         orders.setId(StringUtils.getUUID());
-        orders.setStatus((byte)0);
+        if(in){
+            orders.setStatus((byte)0);
+        }else{
+            orders.setStatus((byte)3);
+        }
         try{
             ordersService.save(orders);
             return ResultUtil.result(200);
@@ -84,8 +88,8 @@ public class OrdersController {
     }
 
     @GetMapping("/getList")
-    public EasyUIUtil getList(OrdersAO ordersAO){
-        IPage<Orders> iPage = ordersService.getList(ordersAO);
+    public EasyUIUtil getList(OrdersAO ordersAO, @RequestParam("do")Boolean in){
+        IPage<Orders> iPage = ordersService.getList(ordersAO, in);
         int total = (int) iPage.getTotal();
         int start = (int) iPage.getCurrent();
         int pageSize = (int) iPage.getPages();
@@ -119,6 +123,18 @@ public class OrdersController {
                           @RequestParam("operator")String operator){
         try {
             ordersService.out(id, operator);
+            return ResultUtil.result(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultUtil.result(500);
+        }
+    }
+
+    @GetMapping("/checkReturn")
+    public ResultUtil checkReturn(@RequestParam("id")String id,
+                                  @RequestParam("operator")String operator){
+        try{
+            ordersService.checkReturn(id, operator);
             return ResultUtil.result(200);
         }catch (Exception e){
             e.printStackTrace();

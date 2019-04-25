@@ -15,8 +15,10 @@ import com.ma.clothes.pojo.entity.Orders;
  */
 public interface IOrdersService extends IService<Orders> {
 
-    IPage<Orders> getList(OrdersAO ordersAO);
+    IPage<Orders> getList(OrdersAO ordersAO, Boolean in);
 
     void out(String id, String operator);
+
+    void checkReturn(String id, String operator);
 
 }
