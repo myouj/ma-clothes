@@ -1,9 +1,9 @@
 package com.ma.clothes.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ma.clothes.pojo.entity.Orders;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.springframework.core.annotation.Order;
+import com.ma.clothes.pojo.ao.OrdersAO;
+import com.ma.clothes.pojo.entity.Orders;
 
 /**
  * <p>
@@ -15,5 +15,8 @@ import org.springframework.core.annotation.Order;
  */
 public interface IOrdersService extends IService<Orders> {
 
+    IPage<Orders> getList(OrdersAO ordersAO);
+
+    void out(String id, String operator);
 
 }

@@ -88,4 +88,10 @@ public class CustomerController {
         return ResultUtil.result(200);
     }
 
+    @GetMapping("/getCustomer")
+    public List<Customer> getCustomer(){
+        List<Customer> list = customerService.list();
+        return list;
+    }
+
 }

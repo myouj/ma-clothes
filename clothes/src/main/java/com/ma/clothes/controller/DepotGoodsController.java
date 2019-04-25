@@ -1,6 +1,7 @@
 package com.ma.clothes.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ma.clothes.common.resultutils.EasyUIUtil;
 import com.ma.clothes.common.resultutils.ResultUtil;
@@ -51,6 +52,14 @@ public class DepotGoodsController {
                                               @RequestParam("goodsName") String goodsName){
         DepotGoods goods = depotGoodsService.getDepotByDnumAndGoods(depotNum, goodsName);
         return ResultUtil.result(200, goods);
+    }
+
+    @GetMapping("/getByGoods")
+    public List<DepotGoods> getByGoods(@RequestParam("goods")String goods){
+        QueryWrapper<DepotGoods> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("goods_name", goods);
+        List<DepotGoods> list = depotGoodsService.list(queryWrapper);
+        return list;
     }
 
 }
