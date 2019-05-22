@@ -180,6 +180,16 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseMapper, Purchase>
     }
 
     @Override
+    public void uncheck(String id) {
+        Purchase purchase = purchaseMapper.selectById(id);
+        String operator = purchase.getOperator();
+        String[] split = operator.split(",");
+        purchase.setOperator(split[0]);
+        purchase.setStatus((byte)0);
+        purchaseMapper.updateById(purchase);
+    }
+
+    @Override
     @Transactional
     public int outPurchase(String id, String operator) throws MyException {
         DepotInfo depotInfo1 = depotInfoMapper.selectById(id);

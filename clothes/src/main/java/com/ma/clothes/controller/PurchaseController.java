@@ -151,4 +151,16 @@ public class PurchaseController{
         return ResultUtil.result(200);
     }
 
+    @GetMapping("/uncheck")
+    public ResultUtil uncheck(@RequestParam("id")String id){
+        try {
+            purchaseService.uncheck(id);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultUtil.result(500);
+        }
+
+        return ResultUtil.result(200);
+    }
+
 }

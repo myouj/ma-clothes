@@ -22,4 +22,6 @@ public interface IPurchaseService extends IService<Purchase> {
 
     int outPurchase(String id, String operator) throws MyException;
 
+    void uncheck(String id);
+
 }
