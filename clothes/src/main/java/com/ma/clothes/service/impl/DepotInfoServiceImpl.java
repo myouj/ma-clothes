@@ -43,6 +43,8 @@ public class DepotInfoServiceImpl extends ServiceImpl<DepotInfoMapper, DepotInfo
             queryWrapper.le("operator_time", depotInfoAO.getEndTime());
         }
 
+        queryWrapper.orderByDesc("operator_time");
+
         IPage<DepotInfo> iPage = depotInfoMapper.selectPage(page, queryWrapper);
 
         return iPage;

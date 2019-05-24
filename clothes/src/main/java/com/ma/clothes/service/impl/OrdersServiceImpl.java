@@ -74,6 +74,8 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
             queryWrapper.notIn("status", "0", "1", "2");
         }
 
+        queryWrapper.orderByDesc("operate_time");
+
         IPage<Orders> iPage = ordersMapper.selectPage(page, queryWrapper);
 
         return iPage;

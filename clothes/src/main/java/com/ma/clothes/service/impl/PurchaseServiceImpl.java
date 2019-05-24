@@ -77,6 +77,8 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseMapper, Purchase>
             queryWrapper.le("operate_time", purchaseAO.getEndTime());
         }
 
+        queryWrapper.orderByDesc("operate_time");
+
         IPage<Purchase> iPage = purchaseMapper.selectPage(page, queryWrapper);
 
         return iPage;

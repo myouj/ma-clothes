@@ -59,6 +59,8 @@ public class AllocationInfoServiceImpl extends ServiceImpl<AllocationInfoMapper,
             queryWrapper.le("operator_time", allocationAO.getSearchEndTime());
         }
 
+        queryWrapper.orderByDesc("operator_time");
+
         IPage<AllocationInfo> iPage = allocationInfoMapper.selectPage(page, queryWrapper);
 
         return iPage;

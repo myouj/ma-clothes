@@ -45,6 +45,8 @@ public class DepotServiceImpl extends ServiceImpl<DepotMapper, Depot> implements
             queryWrapper.like("address", depotAO.getAddress());
         }
 
+        queryWrapper.orderByAsc("num");
+
         IPage<Depot> depotIPage = depotMapper.selectPage(depotPage, queryWrapper);
 
         return depotIPage;

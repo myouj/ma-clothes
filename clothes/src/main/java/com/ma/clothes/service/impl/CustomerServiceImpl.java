@@ -41,6 +41,8 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
             queryWrapper.like("manager", customerAO.getManager());
         }
 
+        queryWrapper.orderByAsc("number");
+
         IPage<Customer> customerIPage = customerMapper.selectPage(customerPage, queryWrapper);
 
         return customerIPage;

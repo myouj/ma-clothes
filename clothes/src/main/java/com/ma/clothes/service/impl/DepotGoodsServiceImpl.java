@@ -65,6 +65,8 @@ public class DepotGoodsServiceImpl extends ServiceImpl<DepotGoodsMapper, DepotGo
             depotGoodsQueryWrapper.eq("goods_name", depotGoodsAO.getGoodsName());
         }
 
+        depotGoodsQueryWrapper.orderByAsc("depot_id");
+
         IPage<DepotGoods> depotGoodsIPage = depotGoodsMapper.selectPage(depotGoodsPage, depotGoodsQueryWrapper);
         return depotGoodsIPage;
     }

@@ -45,6 +45,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             goodsQueryWrapper.like("name", goodsAO.getName());
         }
 
+        goodsQueryWrapper.orderByAsc("number");
+
         IPage<Goods> goodsIPage = goodsMapper.selectPage(goodsPage, goodsQueryWrapper);
 
         return goodsIPage;

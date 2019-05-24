@@ -40,6 +40,8 @@ public class SupplierServiceImpl extends ServiceImpl<SupplierMapper, Supplier> i
             queryWrapper.like("manager", supplierAO.getManager());
         }
 
+        queryWrapper.orderByAsc("num");
+
         IPage<Supplier> iPage = supplierMapper.selectPage(page, queryWrapper);
 
         return iPage;
