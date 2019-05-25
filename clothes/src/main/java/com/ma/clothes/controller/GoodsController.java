@@ -72,7 +72,7 @@ public class GoodsController {
             }
         }
 
-            return ResultUtil.result(500, "商品已存在");
+        return ResultUtil.result(500, "商品已存在");
     }
 
     @GetMapping("/deleteGoodsById")

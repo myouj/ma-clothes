@@ -30,7 +30,7 @@ public class Manager implements Serializable {
 
     private String telephone;
 
-    private String departmentId;
+    private String department;
 
     private Boolean superRoot;
 
