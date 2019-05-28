@@ -36,7 +36,7 @@ public class FinanceServiceImpl extends ServiceImpl<FinanceMapper, Finance> impl
             queryWrapper.eq("properties", financeAO.getType());
         }
 
-        queryWrapper.orderByAsc("time");
+        queryWrapper.orderByDesc("time");
 
         IPage<Finance> iPage = financeMapper.selectPage(page, queryWrapper);
         return iPage;

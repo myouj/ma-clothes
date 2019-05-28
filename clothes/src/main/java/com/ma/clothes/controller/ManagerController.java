@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -125,6 +126,21 @@ public class ManagerController {
         UpdateWrapper<Manager> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("id", id).set("password", "huayuge");
         managerService.update(updateWrapper);
+        return ResultUtil.result(200);
+    }
+
+    @GetMapping("updatePassword")
+    public ResultUtil updatePassword(@RequestParam("newPassword")String newPassword,
+                                     @RequestParam("username")String username){
+        UpdateWrapper<Manager> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("username", username).set("password", newPassword);
+        managerService.update(updateWrapper);
+        return ResultUtil.result(200);
+    }
+
+    @GetMapping("logout")
+    public ResultUtil logout(HttpServletRequest request){
+        request.getSession().removeAttribute("manager");
         return ResultUtil.result(200);
     }
 }

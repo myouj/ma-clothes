@@ -121,7 +121,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         Finance finance = new Finance();
         finance.setId(StringUtils.getUUID());
         finance.setProperties("订单出库");
-        finance.setOrderId(orders.getId());
+        finance.setOrderId(orders.getNumber().toString());
         finance.setInOrOut(true);
         finance.setAmount(orders.getAmount());
         financeMapper.insert(finance);
@@ -174,7 +174,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         Finance finance = new Finance();
         finance.setId(StringUtils.getUUID());
         finance.setProperties("订单退货");
-        finance.setOrderId(orders.getId());
+        finance.setOrderId(orders.getNumber().toString());
         finance.setInOrOut(false);
         finance.setAmount(orders.getAmount());
         financeMapper.insert(finance);
